@@ -2,7 +2,7 @@
 
 #include "gripper.h"
 #include "arm.h"
-#include "pick_and_placer.cpp"
+#include "pick_and_placer.h"
 
 ros::Subscriber sub_;
 

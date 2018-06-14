@@ -39,7 +39,7 @@ namespace moveit {
     /* /MoveGroupInterface */
 
     /* PlanningSceneInterface */
-    PlanningSceneInterface::PlanningSceneInterface() {}
+    PlanningSceneInterface::PlanningSceneInterface(const std::string& ns) {}
     PlanningSceneInterface::~PlanningSceneInterface() {}
 
     std::map<std::string, moveit_msgs::CollisionObject> 

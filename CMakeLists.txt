@@ -123,6 +123,7 @@ catkin_package(
     geometry_msgs
     shape_msgs
     moveit_core
+    moveit_ros_planning
     moveit_ros_planning_interface
     actionlib
     #DEPENDS
@@ -215,8 +216,10 @@ target_link_libraries(${PROJECT_NAME}_node
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 
 ## Add gtest based cpp test target and link libraries
-catkin_add_gtest(${PROJECT_NAME}-test test/RunTests.cpp)
-if(TARGET ${PROJECT_NAME}-test)
+if(CATKIN_ENABLE_TESTING)
+  catkin_add_gtest(${PROJECT_NAME}-test test/RunTests.cpp)
+#endif()
+#if(TARGET ${PROJECT_NAME}-test)
   set(CMAKE_BUILD_TYPE Debug)
   add_library(${PROJECT_NAME}_mock
     src/pick_and_placer.cpp
