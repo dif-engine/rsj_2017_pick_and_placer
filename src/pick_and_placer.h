@@ -12,7 +12,11 @@
 class PickNPlacer {
 public:
   PickNPlacer(Arm& arm, Logger& logger, PlanningScene& scene);
-  void DoPickAndPlace(double x, double y);
+  void Initialize();
+  void DoMoveVertical();
+  bool DoPickAndPlace(double x, double y);
+  bool DoPick(double x, double y);
+  bool DoPlace();
   void SetupPlanningScene();
   int sleepTime = 1; // public so that for example tests can skip sleeping
 private:

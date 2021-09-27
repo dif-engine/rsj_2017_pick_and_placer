@@ -1,85 +1,116 @@
 #include "arm.h"
 
-Arm::Arm(Gripper& gripper, Logger& logger, const std::string& group, const std::string& gripperGroup,
-         const PickNPlacerParams& params)
-        : arm_(group), logger_(logger), gripper_(gripper), gripper_group_(gripperGroup), params_(params) {
+Arm::Arm(Gripper& gripper, Logger& logger, const std::string& group, const std::string& gripperGroup, PickNPlacerParams& params)
+        : arm_(group, std::shared_ptr<tf2_ros::Buffer>(), ros::Duration(10)), logger_(logger), gripper_(gripper), gripper_group_(gripperGroup, std::shared_ptr<tf2_ros::Buffer>(), ros::Duration(10)), params_(params) {
+  ROS_INFO("Setting pose reference frame");
   arm_.setPoseReferenceFrame(params_.scene_task_frame_);
+  ROS_INFO("Arm initialized");
 }
 
 void Arm::Initialize() {
   gripper_.waitForServer();
+  control_msgs::GripperCommandGoal goal;
+  DoOpenGripper(goal);
+  if (sponge_attached_) {
+    arm_.detachObject("sponge");
+    sponge_attached_ = false;
+  }
 }
 
-bool Arm::DoPick(double x, double y) {
+void Arm::SetParams(PickNPlacerParams& params) {
+  params_ = params;
+}
+
+PickState Arm::DoPick(double x, double y) {
   // Prepare
   logger_.INFO("Moving to prepare pose");
+  PickState state(PickState::MoveToPreparePose);
   geometry_msgs::PoseStamped pose;
   if (!DoPickPrepare(pose, x, y)) {
     logger_.WARN("Could not move to prepare pose");
-    return false;
+    state = PickState::MoveToPreparePoseFailed;
+    return state;
   }
 
   logger_.INFO("Opening gripper");
+  state = PickState::OpenGripper;
   control_msgs::GripperCommandGoal goal;
 
   if (!DoOpenGripper(goal)) {
     logger_.WARN("Gripper open action did not complete");
-    return false;
+    state = PickState::OpenGripperFailed;
+    return state;
   }
 
   logger_.INFO("Executing approach");
+  state = PickState::Approach;
   if (!DoApproach(pose)) {
     logger_.WARN("Could not move to grasp pose");
-    return false;
+    state = PickState::ApproachFailed;
+    return state;
   }
 
   logger_.INFO("Grasping object");
+  state = PickState::Grasp;
   if (!DoGrasp(goal)) {
     logger_.WARN("Gripper close action did not complete");
-    return false;
+    state = PickState::GraspFailed;
+    return state;
   }
 
   logger_.INFO("Retreating");
+  state = PickState::Retreat;
   if (!DoRetreat(pose)) {
     logger_.WARN("Could not move to retreat pose");
-    return false;
+    state = PickState::RetreatFailed;
+    return state;
   }
 
   logger_.INFO("Pick complete");
-  return true;
+  state = PickState::Completed;
+  return state;
 }
 
-bool Arm::DoPlace() {
+PlaceState Arm::DoPlace() {
   logger_.INFO("Moving to prepare pose");
+  PlaceState state(PlaceState::MoveToPreparePose);
   geometry_msgs::PoseStamped pose;
   if (!DoPlacePrepare(pose)) {
     logger_.WARN("Could not move to prepare pose");
-    return false;
+    state = PlaceState::MoveToPreparePoseFailed;
+    return state;
   }
 
   logger_.INFO("Executing approach");
+  state = PlaceState::Approach;
   if (!DoPlaceApproach(pose)) {
     logger_.WARN("Could not move to place pose");
-    return false;
+    state = PlaceState::ApproachFailed;
+    return state;
   }
 
   logger_.INFO("Opening gripper");
+  state = PlaceState::OpenGripper;
   control_msgs::GripperCommandGoal goal;
   if (!DoRelease(goal)) {
     logger_.WARN("Gripper open action did not complete");
-    return false;
+    state = PlaceState::OpenGripperFailed;
+    return state;
   }
 
   logger_.INFO("Retreating");
+  state = PlaceState::Retreat;
   if (!DoRetreat(pose)) {
     logger_.WARN("Could not move to retreat pose");
-    return false;
+    state = PlaceState::RetreatFailed;
+    return state;
   }
 
   DoRest(goal);
 
   logger_.INFO("Place complete");
-  return true;
+  state = PlaceState::Completed;
+  return state;
 }
 
 void Arm::DoMoveVertical() {
@@ -138,6 +169,7 @@ bool Arm::DoGrasp(control_msgs::GripperCommandGoal& goal) {
     return false;
   }
   arm_.attachObject("sponge", "", gripper_group_.getLinkNames());
+  sponge_attached_ = true;
   return true;
 }
 
@@ -174,6 +206,7 @@ bool Arm::DoRelease(control_msgs::GripperCommandGoal& goal) {
     return false;
   }
   arm_.detachObject("sponge");
+  sponge_attached_ = false;
   return true;
 }
 

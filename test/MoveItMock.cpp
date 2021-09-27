@@ -1,5 +1,6 @@
 #include <moveit/move_group_interface/move_group_interface.h>
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
+#include <tf2_ros/buffer.h>
 
 const std::vector<std::string> linkNames;
 const std::map<std::string, moveit_msgs::CollisionObject> collisionObjects;
@@ -11,7 +12,7 @@ namespace moveit {
   namespace planning_interface {
     /* MoveGroupInterface */
     MoveGroupInterface::MoveGroupInterface(const std::string& group, 
-                                           const boost::shared_ptr<tf::Transformer>& tf, 
+                                           const std::shared_ptr<tf2_ros::Buffer>& tf, 
                                            const ros::WallDuration& wait_for_servers) {}
     void MoveGroupInterface::setPoseReferenceFrame(const std::string& surfaceName) {}
     MoveGroupInterface::~MoveGroupInterface() {}
@@ -39,7 +40,7 @@ namespace moveit {
     /* /MoveGroupInterface */
 
     /* PlanningSceneInterface */
-    PlanningSceneInterface::PlanningSceneInterface(const std::string& ns) {}
+    PlanningSceneInterface::PlanningSceneInterface(const std::string& ns, bool wait) {}
     PlanningSceneInterface::~PlanningSceneInterface() {}
 
     std::map<std::string, moveit_msgs::CollisionObject> 

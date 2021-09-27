@@ -5,9 +5,15 @@
 #include <vector>
 
 #include "pick_and_placer.h"
+#include "pick_state.h"
+#include "place_state.h"
 
 PickNPlacer::PickNPlacer(Arm& arm, Logger& logger, PlanningScene& scene)
     : arm_(arm), logger_(logger), scene_(scene) {
+      Initialize();
+}
+
+void PickNPlacer::Initialize() {
   // Specify end-effector positions in the configured task frame
   arm_.Initialize();
 
@@ -18,21 +24,33 @@ PickNPlacer::PickNPlacer(Arm& arm, Logger& logger, PlanningScene& scene)
   arm_.DoMoveVertical();
 }
 
-void PickNPlacer::DoPickAndPlace(double x, double y) {
+void PickNPlacer::DoMoveVertical() {
+  arm_.DoMoveVertical();
+}
+
+bool PickNPlacer::DoPickAndPlace(double x, double y) {
+  if (DoPick(x, y)) {
+    return DoPlace();
+  }
+}
+
+bool PickNPlacer::DoPick(double x, double y) {
   // Add the newly-detected object
   scene_.AddBox(x, y);
   // Sleep a little to let the messages flow and be processed
   ros::Duration(sleepTime).sleep();
 
-  // Do the pick-and-place
-  if (arm_.DoPick(x, y)) {
-    arm_.DoPlace();
-  }
+  PickState pick = arm_.DoPick(x, y);
+  return pick == PickState::Completed;
+}
+
+bool PickNPlacer::DoPlace() {
+  PlaceState place = arm_.DoPlace();
   // Remove the object now that we don't care about it any more
   scene_.RemoveBox();
+  return place == PlaceState::Completed;
 }
 
 void PickNPlacer::SetupPlanningScene() {
-  logger_.INFO("Setting up planning scene");
   scene_.Initialize();
 }

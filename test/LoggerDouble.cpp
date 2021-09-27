@@ -1,7 +1,26 @@
-#include "../src/logger.h"
+#ifndef RSJ_2017_PICK_AND_PLACER_LOGGER_H
+#define RSJ_2017_PICK_AND_PLACER_LOGGER_H
 
-void Logger::DEBUG(const char* fmt...) {}
-void Logger::INFO(const char* fmt...) {}
-void Logger::WARN(const char* fmt...) {}
-void Logger::ERROR(const char* fmt...) {}
-void Logger::FATAL(const char* fmt...) {}
+#include <ros/ros.h>
+#include <string>
+#include <iostream>
+
+class Logger {
+public:
+  template<typename... Args> void DEBUG(const char* fmt, Args... args) {
+  }
+
+  template<typename... Args> void INFO(const char* fmt, Args... args) {
+  }
+
+  template<typename... Args> void WARN(const char* fmt, Args... args) {
+  }
+
+  template<typename... Args> void ERROR(const char* fmt, Args... args) {
+  }
+
+  template<typename... Args> void FATAL(const char* fmt, Args... args) {
+  }
+};
+
+#endif //RSJ_2017_PICK_AND_PLACER_LOGGER_H
