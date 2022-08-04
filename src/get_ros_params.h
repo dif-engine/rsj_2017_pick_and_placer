@@ -13,7 +13,7 @@ void GetROSParams(PickNPlacerParams& params) {
     params.place_x_,
     0.1);
   ros::param::param<float>("place_y", params.place_y_, -0.2);
-  ros::param::param<std::__cxx11::string>(
+  ros::param::param<std::string>(
     "~task_frame",
     params.scene_task_frame_,
     "base_link");
