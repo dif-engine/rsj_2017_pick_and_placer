@@ -24,7 +24,7 @@ namespace moveit {
                                             const std::string& end_effector_link) {
       return true;
     }
-    MoveItErrorCode MoveGroupInterface::move() {
+    moveit::core::MoveItErrorCode MoveGroupInterface::move() {
       return MoveItErrorCode(moveit_msgs::MoveItErrorCodes::SUCCESS);
     }
     const std::vector<std::string>& MoveGroupInterface::getLinkNames()const {
