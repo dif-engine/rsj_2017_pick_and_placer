@@ -18,6 +18,7 @@ find_package(catkin REQUIRED COMPONENTS
   shape_msgs
   actionlib
   pick_and_placer_msgs
+  ar_track_alvar
   # moveit_visual_tools
 )
 
