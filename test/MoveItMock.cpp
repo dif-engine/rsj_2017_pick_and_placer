@@ -27,7 +27,7 @@ namespace moveit {
     MoveItErrorCode MoveGroupInterface::move() {
       return MoveItErrorCode(moveit_msgs::MoveItErrorCodes::SUCCESS);
     }
-    const std::vector<std::string>& MoveGroupInterface::getLinkNames() {
+    const std::vector<std::string>& MoveGroupInterface::getLinkNames()const {
       return ::linkNames;
     }
     bool MoveGroupInterface::attachObject(const std::string& object, const std::string& link, 
