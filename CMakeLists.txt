@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(rsj_2017_pick_and_placer)
 
-## Add support for C++11, supported in ROS Kinetic and newer
-add_definitions(-std=c++11 -Wformat-security)
+## Add support for C++14, for ROS Noetic
+set(CMAKE_CXX_STANDARD 14)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -144,6 +144,11 @@ catkin_package(
 # include_directories(include)
 include_directories(
   ${catkin_INCLUDE_DIRS}
+  src
+)
+
+link_directories(
+  src/
 )
 
 ## Declare a C++ library
@@ -189,6 +194,10 @@ target_link_libraries(${PROJECT_NAME}_services
   ${catkin_LIBRARIES}
 )
 
+#target_link_libraries(${PROJECT_NAME}
+#src
+#)
+
 #############
 ## Install ##
 #############
@@ -227,26 +236,26 @@ target_link_libraries(${PROJECT_NAME}_services
 #############
 ## Testing ##
 #############
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
+#SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 
 ## Add gtest based cpp test target and link libraries
-if(CATKIN_ENABLE_TESTING)
-  catkin_add_gtest(${PROJECT_NAME}-test test/RunTests.cpp)
+#if(CATKIN_ENABLE_TESTING)
+#  catkin_add_gtest(${PROJECT_NAME}-test test/RunTests.cpp)
 #endif()
 #if(TARGET ${PROJECT_NAME}-test)
-  set(CMAKE_BUILD_TYPE Debug)
-  add_library(${PROJECT_NAME}_mock
-	  #src/pick_and_placer.cpp
-    	  #src/gripper.cpp
-    	  #src/arm.cpp
-    	  #src/planning_scene.cpp
-    test/MoveItMock.cpp
-    test/LoggerDouble.cpp)
-  target_link_libraries(${PROJECT_NAME}-test
-    ${PROJECT_NAME}
-    ${PROJECT_NAME}_mock
-    ${catkin_LIBRARIES})
-endif()
+#  set(CMAKE_BUILD_TYPE Debug)
+#  add_library(${PROJECT_NAME}_mock
+#	  #src/pick_and_placer.cpp
+#    	  #src/gripper.cpp
+#    	  #src/arm.cpp
+#    	  #src/planning_scene.cpp
+#    test/MoveItMock.cpp
+#    test/LoggerDouble.cpp)
+#  target_link_libraries(${PROJECT_NAME}-test
+#    ${PROJECT_NAME}
+#    ${PROJECT_NAME}_mock
+#    ${catkin_LIBRARIES})
+#endif()
 
 ## Add folders to be run by python nosetests
 #catkin_add_nosetests(test)
@@ -261,7 +270,7 @@ endif()
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
 ## e.g. "rosrun someones_pkg node" instead of "rosrun someones_pkg someones_pkg_node"
-# set_target_properties(${PROJECT_NAME}_pick_and_placer PROPERTIES OUTPUT_NAME pick_and_placer PREFIX "")
+#set_target_properties(${PROJECT_NAME}_pick_and_placer PROPERTIES OUTPUT_NAME pick_and_placer PREFIX "")
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -269,7 +278,7 @@ endif()
 
 ## Specify libraries to link a library or executable target against
 #target_link_libraries(${PROJECT_NAME}_pick_and_placer
-#  ${PROJECT_NAME}-test
-#  ${catkin_LIBRARIES}
-#  ${Boost_LIBRARIES}
+  #${PROJECT_NAME}-test
+ # ${catkin_LIBRARIES}
+ # ${Boost_LIBRARIES}
 #)
