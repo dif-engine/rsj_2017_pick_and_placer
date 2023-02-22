@@ -8,6 +8,8 @@
 #include "pick_state.h"
 #include "place_state.h"
 
+#define USE_DO_MOVE_VERTICAL 0
+
 PickNPlacer::PickNPlacer(Arm& arm, Logger& logger, PlanningScene& scene)
     : arm_(arm), logger_(logger), scene_(scene) {
       Initialize();
@@ -21,11 +23,15 @@ void PickNPlacer::Initialize() {
   SetupPlanningScene();
 
   // Start by moving to the vertical pose
+  #if USE_DO_MOVE_VERTICAL
   arm_.DoMoveVertical();
+  #endif 
 }
 
 void PickNPlacer::DoMoveVertical() {
+  #if USE_DO_MOVE_VERTICAL
   arm_.DoMoveVertical();
+  #endif 
 }
 
 bool PickNPlacer::DoPickAndPlace(double x, double y) {

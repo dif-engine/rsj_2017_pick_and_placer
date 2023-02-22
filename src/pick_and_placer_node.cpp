@@ -5,8 +5,6 @@
 #include "pick_and_placer.h"
 #include "get_ros_params.h"
 
-ros::Subscriber sub_;
-
 class PickAndPlacerNode {
   PickNPlacer& pnp_;
 
@@ -21,6 +19,8 @@ public:
 
 int main(int argc, char **argv) {
   ros::init(argc, argv, "pickandplacer");
+
+  ros::Subscriber sub;
 
   ros::AsyncSpinner spinner(2);
   spinner.start();
@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
 
   // Subscribe to the "/block" topic to receive object positions; excecute
   // DoPickAndPlace() when one is received
-  sub_ = nh.subscribe("/block", 1, &PickAndPlacerNode::DoPickAndPlace, &node);
+  sub = nh.subscribe("/block", 1, &PickAndPlacerNode::DoPickAndPlace, &node);
 
   // Wait until the node is shut down
   ros::waitForShutdown();
