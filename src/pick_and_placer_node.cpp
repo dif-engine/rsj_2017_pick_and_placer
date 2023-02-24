@@ -38,8 +38,8 @@ int main(int argc, char **argv) {
   PickNPlacer pnp(arm, logger, scene);
   auto node = PickAndPlacerNode(pnp);
 
-  // Subscribe to the "/block" topic to receive object positions; excecute
-  // DoPickAndPlace() when one is received
+  // 1. Subscribe to the "/block" topic to receive object positions.
+  // 2. Excecute DoPickAndPlace() when one is received.
   sub = nh.subscribe("/block", 1, &PickAndPlacerNode::DoPickAndPlace, &node);
 
   // Wait until the node is shut down
