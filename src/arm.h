@@ -1,5 +1,4 @@
-#ifndef RSJ_2017_PICK_AND_PLACER_ARM_H
-#define RSJ_2017_PICK_AND_PLACER_ARM_H
+#pragma once
 
 #include <moveit/move_group_interface/move_group_interface.h>
 #include <geometry_msgs/Pose.h>
@@ -41,4 +40,3 @@ protected:
   virtual void DoCloseGripper(control_msgs::GripperCommandGoal &goal);
 };
 
-#endif //RSJ_2017_PICK_AND_PLACER_ARM_H

@@ -1,5 +1,4 @@
-#ifndef RSJ_2017_PICK_AND_PLACER_PLANNING_SCENE_H
-#define RSJ_2017_PICK_AND_PLACER_PLANNING_SCENE_H
+#pragma once
 
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
 #include "arm.h"
@@ -18,5 +17,3 @@ protected:
   Arm& arm_;
   Logger& logger_;
 };
-
-#endif //RSJ_2017_PICK_AND_PLACER_PLANNING_SCENE_H

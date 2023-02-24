@@ -1,5 +1,4 @@
-#ifndef RSJ_2017_PICK_AND_PLACER_GRIPPER_H
-#define RSJ_2017_PICK_AND_PLACER_GRIPPER_H
+#pragma once
 
 #include <ros/ros.h>
 #include <actionlib/client/simple_action_client.h>
@@ -14,5 +13,3 @@ public:
 private:
   actionlib::SimpleActionClient<control_msgs::GripperCommandAction> gripper_;
 };
-
-#endif //RSJ_2017_PICK_AND_PLACER_GRIPPER_H

@@ -1,5 +1,4 @@
-#ifndef RSJ_2017_PICK_AND_PLACER_PLACE_STATE_H
-#define RSJ_2017_PICK_AND_PLACER_PLACE_STATE_H
+#pragma once
 
 enum class PlaceState {
   MoveToPreparePose,
@@ -12,5 +11,3 @@ enum class PlaceState {
   RetreatFailed,
   Completed
 };
-
-#endif //RSJ_2017_PICK_AND_PLACER_PLACE_STATE_H

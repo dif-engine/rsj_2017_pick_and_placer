@@ -1,5 +1,4 @@
-#ifndef RSJ_2017_PICK_AND_PLACER_LOGGER_H
-#define RSJ_2017_PICK_AND_PLACER_LOGGER_H
+#pragma once 
 
 #include <ros/ros.h>
 #include <string>
@@ -28,5 +27,3 @@ public:
     ROS_FATAL(fmt, args...);
   }
 };
-
-#endif //RSJ_2017_PICK_AND_PLACER_LOGGER_H

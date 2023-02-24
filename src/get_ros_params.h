@@ -1,5 +1,4 @@
-#ifndef RSJ_2017_PICK_AND_PLACER_GET_ROS_PARAMS_H
-#define RSJ_2017_PICK_AND_PLACER_GET_ROS_PARAMS_H
+#pragma once
 
 #include <ros/ros.h>
 #include "pick_and_placer_params.h"
@@ -24,5 +23,3 @@ void GetROSParams(PickNPlacerParams& params) {
   ros::param::param<float>("~gripper_open", params.gripper_open_, 0.1);
   ros::param::param<float>("~gripper_close", params.gripper_close_, 0.025);
 }
-
-#endif //RSJ_2017_PICK_AND_PLACER_GET_ROS_PARAMS_H

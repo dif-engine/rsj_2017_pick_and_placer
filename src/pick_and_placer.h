@@ -1,5 +1,4 @@
-#ifndef RSJ_2017_PICK_AND_PLACER_PICK_AND_PLACER_H
-#define RSJ_2017_PICK_AND_PLACER_PICK_AND_PLACER_H
+#pragma once 
 
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
 #include <geometry_msgs/Pose2D.h>
@@ -24,5 +23,3 @@ private:
   Logger& logger_;
   PlanningScene& scene_;
 };
-
-#endif

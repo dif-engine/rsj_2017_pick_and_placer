@@ -1,5 +1,4 @@
-#ifndef RSJ_2017_PICK_AND_PLACER_PICK_STATE_H
-#define RSJ_2017_PICK_AND_PLACER_PICK_STATE_H
+#pragma once
 
 enum class PickState {
   MoveToPreparePose,
@@ -15,4 +14,3 @@ enum class PickState {
   Completed
 };
 
-#endif //RSJ_2017_PICK_AND_PLACER_PICK_STATE_H

@@ -1,5 +1,4 @@
-#ifndef RSJ_2017_PICK_AND_PLACER_PARAMS_H
-#define RSJ_2017_PICK_AND_PLACER_PARAMS_H
+#pragma once
 
 #include <string>
 
@@ -14,5 +13,3 @@ struct PickNPlacerParams {
   float gripper_open_;
   float gripper_close_;
 };
-
-#endif // RSJ_2017_PICK_AND_PLACER_PARAMS_H
