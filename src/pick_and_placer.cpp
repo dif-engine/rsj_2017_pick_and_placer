@@ -42,11 +42,24 @@ bool PickNPlacer::DoPickAndPlace(double x, double y) {
 
 bool PickNPlacer::DoPick(double x, double y) {
   // Add the newly-detected object
+
+
+  //[debug]
+  logger_.INFO("77777-(before AddBox)");
   scene_.AddBox(x, y);
+  logger_.INFO("77777-(after AddBox)");
+
   // Sleep a little to let the messages flow and be processed
+
+
   ros::Duration(sleepTime).sleep();
 
+
+  logger_.INFO("77777-(before DoPick)");
   PickState pick = arm_.DoPick(x, y);
+  logger_.INFO("77777-(after DoPick)");
+
+
   return pick == PickState::Completed;
 }
 

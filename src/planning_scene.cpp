@@ -54,9 +54,11 @@ void PlanningScene::AddTable() {
 void PlanningScene::AddBox(double x, double y) {
     logger_.INFO("Adding box to planning scene at %f, %f", x, y);
     // Add a box to the scene to represent the object to be picked
-    moveit_msgs::CollisionObject sponge;
-    sponge.header.frame_id = "base_link";
-    sponge.id = "sponge";
+
+    moveit_msgs::CollisionObject picking_target;
+
+    picking_target.header.frame_id = "base_link";
+    picking_target.id = "pick-target";
     shape_msgs::SolidPrimitive primitive;
     primitive.type = primitive.BOX;
     primitive.dimensions.resize(3);
@@ -68,16 +70,16 @@ void PlanningScene::AddBox(double x, double y) {
     pose.position.y = y;
     pose.position.z = 0.016;
     pose.orientation.w = 1;
-    sponge.primitives.push_back(primitive);
-    sponge.primitive_poses.push_back(pose);
-    sponge.operation = sponge.ADD;
-    scene_.applyCollisionObject(sponge);
+    picking_target.primitives.push_back(primitive);
+    picking_target.primitive_poses.push_back(pose);
+    picking_target.operation = picking_target.ADD;
+    scene_.applyCollisionObject(picking_target);
 }
 
 void PlanningScene::RemoveBox() {
     logger_.INFO("Removing box from planning scene");
     // Remove the box from the scene
     std::vector<std::string> objs;
-    objs.push_back("sponge");
+    objs.push_back("pick-target");
     scene_.removeCollisionObjects(objs);
 }

@@ -27,7 +27,7 @@ protected:
   Gripper& gripper_;
   Logger& logger_;
   PickNPlacerParams& params_;
-  bool sponge_attached_;
+  bool picking_target_attached_;
   virtual bool DoPickPrepare(geometry_msgs::PoseStamped& pose, double x, double y);
   virtual bool DoOpenGripper(control_msgs::GripperCommandGoal& goal);
   virtual bool DoApproach(geometry_msgs::PoseStamped& pose);

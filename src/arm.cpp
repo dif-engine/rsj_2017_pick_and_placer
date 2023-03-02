@@ -11,9 +11,9 @@ void Arm::Initialize() {
   gripper_.waitForServer();
   control_msgs::GripperCommandGoal goal;
   DoOpenGripper(goal);
-  if (sponge_attached_) {
-    arm_.detachObject("sponge");
-    sponge_attached_ = false;
+  if (picking_target_attached_) {
+    arm_.detachObject("pick-target");
+    picking_target_attached_ = false;
   }
 }
 
@@ -168,8 +168,14 @@ bool Arm::DoGrasp(control_msgs::GripperCommandGoal& goal) {
   if (!gripper_.waitForResult(ros::Duration(30))) {
     return false;
   }
-  arm_.attachObject("sponge", "", gripper_group_.getLinkNames());
-  sponge_attached_ = true;
+
+  //[debug]
+  //memo: before reaching here, error occures.
+  logger_.INFO("77777-(before attachObject in arm.cpp)");
+  arm_.attachObject("pick-target", "", gripper_group_.getLinkNames());
+  logger_.INFO("77777-(after attachObject in arm.cpp)");
+
+  picking_target_attached_ = true;
   return true;
 }
 
@@ -205,8 +211,8 @@ bool Arm::DoRelease(control_msgs::GripperCommandGoal& goal) {
   if (!finishedBeforeTimeout) {
     return false;
   }
-  arm_.detachObject("sponge");
-  sponge_attached_ = false;
+  arm_.detachObject("pick-target");
+  picking_target_attached_ = false;
   return true;
 }
 
