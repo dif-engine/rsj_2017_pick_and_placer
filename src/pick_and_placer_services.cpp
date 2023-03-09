@@ -59,7 +59,8 @@ int main(int argc, char **argv) {
   GetROSParams(params);
 
   ROS_INFO("Initializing gripper");
-  Gripper gripper("/crane_x7/gripper_controller/gripper_cmd", "true");
+  //Gripper gripper("/crane_x7/gripper_controller/gripper_cmd", "true");
+  Gripper gripper("/gripper_controller/gripper_cmd", "true");
   ROS_INFO("Initializing logger");
   Logger logger;
   ROS_INFO("Initializing arm");

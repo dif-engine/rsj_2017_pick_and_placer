@@ -35,7 +35,9 @@ int main(int argc, char **argv) {
   PickNPlacerParams params;
   GetROSParams(params);
 
-  Gripper gripper("/crane_x7/gripper_controller/gripper_cmd", "true");
+  //Gripper gripper("/crane_x7/gripper_controller/gripper_cmd", "true");
+  Gripper gripper("/gripper_controller/gripper_cmd", "true");
+
   Logger logger;
   Arm arm(gripper, logger, "arm", "gripper", params);
   PlanningScene scene(arm, logger);
