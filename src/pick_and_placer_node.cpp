@@ -1,9 +1,13 @@
 #include <ros/ros.h>
+#include <geometry_msgs/PoseStamped.h>
 
 #include "gripper.h"
 #include "arm.h"
 #include "pick_and_placer.h"
 #include "get_ros_params.h"
+
+
+
 
 
 
@@ -14,8 +18,16 @@ class PickAndPlacerNode {
 public:
   PickAndPlacerNode(PickNPlacer& pnp) : pnp_(pnp) {}
 
+/* [note: this function is obsolete, because it treats 2D info]
   void DoPickAndPlace(const geometry_msgs::Pose2D::ConstPtr &msg) {
     pnp_.DoPickAndPlace(msg->x, msg->y);
+  }
+  */
+
+  void DoPickAndPlace(const geometry_msgs::PoseStampedPtr& poseStamped) {
+    auto& thePose = poseStamped->pose;
+    pnp_.DoPickAndPlace(thePose.position.x, thePose.position.y);
+    return;
   }
 };
 

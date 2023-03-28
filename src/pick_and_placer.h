@@ -1,7 +1,7 @@
 #pragma once 
 
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
-#include <geometry_msgs/Pose2D.h>
+#include <geometry_msgs/Pose2D.h>//変更の必要あるね
 #include "pick_and_placer_params.h"
 #include "arm.h"
 #include "gripper.h"

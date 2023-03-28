@@ -1,7 +1,15 @@
 #include "arm.h"
 
-Arm::Arm(Gripper& gripper, Logger& logger, const std::string& group, const std::string& gripperGroup, PickNPlacerParams& params)
-        : arm_(group, std::shared_ptr<tf2_ros::Buffer>(), ros::Duration(10)), logger_(logger), gripper_(gripper), gripper_group_(gripperGroup, std::shared_ptr<tf2_ros::Buffer>(), ros::Duration(10)), params_(params) {
+Arm::Arm(Gripper& gripper
+, Logger& logger
+, const std::string& group
+, const std::string& gripperGroup
+, PickNPlacerParams& params)
+        : arm_(group, std::shared_ptr<tf2_ros::Buffer>(), ros::Duration(10))
+        , logger_(logger)
+        , gripper_(gripper)
+        , gripper_group_(gripperGroup, std::shared_ptr<tf2_ros::Buffer>(), ros::Duration(10))
+        , params_(params) {
   ROS_INFO("Setting pose reference frame");
   arm_.setPoseReferenceFrame(params_.scene_task_frame_);
   ROS_INFO("Arm initialized");
@@ -10,7 +18,7 @@ Arm::Arm(Gripper& gripper, Logger& logger, const std::string& group, const std::
 void Arm::Initialize() {
   gripper_.waitForServer();
   control_msgs::GripperCommandGoal goal;
-  DoOpenGripper(goal);
+  this->DoOpenGripper(goal);
   if (picking_target_attached_) {
     arm_.detachObject("pick-target");
     picking_target_attached_ = false;
